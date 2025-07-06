@@ -77,7 +77,7 @@
     git add -A                         # Thêm tất cả: thêm, sửa, xóa (giống `.`)
     git add -u                         # Thêm các file đã theo dõi (bỏ qua file mới)
     ``` 
-### 2. Xem trạng thái: 
+### 2. Xem trạng thái
 - Lệnh: **git status**
     ```bash
    git status [options]
@@ -85,7 +85,7 @@
 - Các tuỳ chọn phổ biến (`[options]`):  
   - `-s` hoặc `--short`: Cung cấp đầu ra trạng thái tóm tắt, ngắn gọn hơn
 
-### 3. Ghi lại các thay đổi đã dàn dựng:
+### 3. Ghi lại các thay đổi đã dàn dựng
 - Lệnh: **Git commit**
     ```bash
     git commit [options] 
@@ -106,7 +106,7 @@
     git commit -am "Commit tất cả file đã chỉnh sửa/tracked (không cần git add)"
     git commit --amend --no-edit  # Sửa lại commit nhưng không đổi message
     ``` 
-### 4. Hiển thị những thay đổi chưa dàn dựng:
+### 4. Hiển thị những thay đổi chưa dàn dựng
 - Lệnh: **Git diff**
      ```bash
     git diff
@@ -156,7 +156,7 @@
   git restore --source=HEAD --staged --worktree script.js     # Khôi phục cả file ở working directory và staging
   ```
 
-## III. Xem lịch sử dự án
+## IV. Xem lịch sử dự án
 - Lệnh: **Git log**
   ```bash
   git log
@@ -185,7 +185,7 @@
   git log --author="Name" --since="1 month ago" index.html
   ```
 
-## IV. Làm việc với các kho lưu trữ từ xa
+## V. Làm việc với các kho lưu trữ từ xa
 ### 1. Quản lý các kho lưu trữ từ xa:
 - Lệnh: **git remote**
      ```bash
@@ -275,7 +275,7 @@
   ```
 
 
-## V. Phân nhánh và Hợp nhất
+## VI. Phân nhánh và Hợp nhất
 ### 1. Quản lý các nhánh
 - Lệnh: **git branch**
      ```bash
@@ -310,7 +310,7 @@
   - Bạn `không thể xoá nhánh đang đứng`. Phải `checkout` sang nhánh khác trước.
   - Để làm việc với nhánh remote, bạn thường cần `git fetch` trước để cập nhật danh sách nhánh.
 
-### 2. Quản lý các nhánh
+### 2. Chuyển nhánh và khôi phục file về trạng thái cũ
 - Lệnh: **git checkout**
      ```bash
    git checkout [options] <branch_or_commit> [--] [<path>...]
@@ -367,14 +367,24 @@
   git merge dev              # Gộp nhánh `dev` vào nhánh hiện tại
   ```
 
-### 4. Tái áp dụng các commit hiện tại lên một nền mới
-- Lệnh: **git rebase **
+### 5. Tái áp dụng commit
+- Lệnh: **git rebase **:  Tái áp dụng các commit hiện tại lên một nền mới
      ```bash
     git rebase [<options>] [<upstream> [<branch>]]
     ```
 - `<upstream>`: Nhánh (hoặc commit) mà bạn muốn rebase lên
 - `<branch>`: Nhánh bạn muốn rebase (mặc định là nhánh hiện tại)
 - `<options>`: Các tùy chọn điều khiển quá trình rebase
+
+  | Tùy chọn              | Ý nghĩa                                          |
+  |-----------------------|--------------------------------------------------|
+  | `-i`, `--interactive` | Rebase tương tác (chỉnh sửa lịch sử)             |
+  | `--onto <newbase>`    | Chỉ định điểm mới để rebase (nâng cao)           |
+  | `--continue`          | Tiếp tục sau khi xử lý conflict                  |
+  | `--abort`             | Hủy rebase nếu đang conflict                     |
+  | `--skip`              | Bỏ qua 1 commit đang lỗi/conflict                |
+  | `--keep-empty`        | Giữ lại commit trống khi rebase                  |
+  | `--autosquash`        | Gộp commit tự động theo cú pháp `fixup!/squash!` |
 - 🧪**VD:**
    ```bash
   # Rebase nhánh hiện tại lên main
@@ -385,24 +395,63 @@
   git rebase -i HEAD~4             # Rebase tương tác (interactive) để chỉnh sửa commit
   ```
 
-### 5. Quản lý các nhánh
-- Lệnh: **git cherry-pick**
+
+### 6. Chuyển commit vào nhánh hiện tại.
+- Lệnh **git cherry-pick**: chọn và áp dụng một commit cụ thể từ nhánh khác vào nhánh hiện tại.
      ```bash
-   git branch [<options>] [<branch-name>] [<start-point>]
+   git cherry-pick [<options>] <commit>
     ```
-### 1. Quản lý các nhánh
-- Lệnh: **git revert**
-     ```bash
-   git branch [<options>] [<branch-name>] [<start-point>]
+- `<commit>`: Mã commit (SHA) mà bạn muốn áp dụng vào nhánh hiện tại
+- `<options>`: Tuỳ chọn điều khiển quá trình cherry-pick
+
+| Tùy chọn      | Mô tả                                                      |
+|---------------|------------------------------------------------------------|
+| `-x`          | Thêm dòng “(cherry picked from …)” vào commit message      |
+| `--edit`      | Mở editor để sửa lại message                               |
+| `--no-commit` | Áp dụng thay đổi nhưng không tự commit (cho phép sửa tiếp) |
+| `--continue`  | Tiếp tục cherry-pick sau khi giải quyết xung đột           |
+| `--abort`     | Hủy cherry-pick khi có xung đột                            |
+| `--skip`      | Bỏ qua commit đang lỗi                                     |
+
+- **VD:**
+  ```bash
+  git cherry-pick a1b2c3d         # Áp dụng một commit vào nhánh hiện tại
+  git cherry-pick a1b2c3d 4d5e6f7 # Áp dụng nhiều commit vào nhánh hiện tại
+  git cherry-pick branch~2        # Áp dụng commit từ một nhánh khác
+  ```
+
+### 7. Đảo ngược commit
+- Lệnh **git revert**:  tạo ra một commit mới nhằm "đảo ngược" (undo) một commit trước đó, mà không làm thay đổi lịch sử Git.
+    ```bash
+    git revert [<options>] <commit>
     ```
+- `<commit>`: Mã SHA (hoặc range commit) bạn muốn đảo ngược
+- `<options>`: Các tùy chọn điều khiển quá trình đảo ngược commit
+
+| Tuỳ chọn      | Ý nghĩa                                                                                 |
+|---------------|-----------------------------------------------------------------------------------------|
+| `--no-commit` | Áp dụng thay đổi nhưng **không tạo commit ngay** (để bạn kiểm tra hoặc chỉnh sửa trước) |
+| `--no-edit`   | Dùng commit message mặc định, **không mở editor**                                       |
+| `--edit`      | Mở trình soạn thảo để bạn viết lại commit message                                       |
+| `--continue`  | Tiếp tục revert sau khi xử lý conflict                                                  |
+| `--abort`     | Hủy revert đang thực hiện khi bị xung đột                                               |
+
+- **VD:**
+  ```bash
+  git revert  a1b2c3d           # Đảo ngược một commit
+  git revert  a1b2c3d 4d5e6f7   # Đảo ngược nhiều commit
+  git revert HEAD~3..HEAD     # Đảo ngược một dải commit
+  ```
 
 
-
-
-| Tính năng                     | Mô tả                                                        | 
-|:------------------------------|:-------------------------------------------------------------|
-| Thiết lập ban đầu và Cấu hình | [`git config`](#1-cấu-hình)                                  | 
-| Lấy hoặc Tạo dự án            | [`git init`](#1-Tạo-git) <br/>   [`git clone`](#2-Lấy-dự-án) | 
+| Tính năng                             | Mô tả                                                                                                                                                                                                                                                                                                                                                              | 
+|:--------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| I. Thiết lập ban đầu và Cấu hình      | [`git config`](#1-cấu-hình)                                                                                                                                                                                                                                                                                                                                        | 
+| II. Lấy hoặc Tạo dự án                | [`git init`](#1-Tạo-git)  [`git clone`](#2-Lấy-dự-án)                                                                                                                                                                                                                                                                                                              | 
+| III. Thay đổi và quản lý tệp          | [`git add`](#1-Thêm-Thay-Đổi)  [`git status`](#2-Xem-trạng-thái)  [`git commit`](#3-Ghi-lại-các-thay-đổi-đã-dàn-dựng)  <br/>   [`git diff`](#4-Hiển-thị-những-thay-đổi-chưa-dàn-dựng)  [`git rm`](#5-Xóa-tệp-khỏi-Git)  [`git restore`](#6-Hoàn-tác-các-thay-đổi)                                                                                                  |
+| IV. Xem lịch sử dự án                 | [`Git log`](#IV-Xem-lịch-sử-dự-án)                                                                                                                                                                                                                                                                                                                                 |
+| V.Làm việc với các kho lưu trữ từ xat | [`git remote`](#1-Quản-lý-các-kho-lưu-trữ-từ-xa)   [`git fetch`](#2-Lấy-dữ-liệu-mới-nhất)  <br/>      [`git pull`](#3-Tải-cà-hợp-nhất-chúng-vào-nhánh-hiện-tại)   [`git push`](#4-Đẩy-lên-kho-lưu-trữ-từ-xa)                                                                                                                                                       |
+| VI. Phân nhánh và Hợp nhất            | [` git branch`](#1-Quản-lý-các-nhánh)   [`git checkout`](#2-Chuyển-nhánh-và-khôi-phục-file-về-trạng-thái-cũ)  [`git switch`](#3-Chuyển-nhánh) <br/>      [`git merge`](#4-Gộp-nội-dung-của-một-nhánh-vào-nhánh-hiện-tại)   [`git rebase`](#5-Tái-áp-dụng-commit)     [`git cherry-pick`](#6-Chuyển-commit-vào-nhánh-hiện-tại)  [`git revest`](#7-Đảo-ngược-commit) |
 
 <!--suppress ALL -->
 <div align="center">

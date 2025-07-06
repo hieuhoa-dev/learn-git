@@ -343,16 +343,48 @@
   git switch -c dev          # Tạo nhánh mới và chuyển sang nhánh đó
   ```
   
-### 3. Quản lý các nhánh
+### 4. Gộp nội dung của một nhánh vào nhánh hiện tại.
 - Lệnh: **git merge**
      ```bash
-   git branch [<options>] [<branch-name>] [<start-point>]
+   git merge [<options>] <branch>
     ```
-### 4. Quản lý các nhánh
+- `<branch>`: Tên nhánh (hoặc commit) bạn muốn gộp vào nhánh hiện tại
+- `<options>`: Tuỳ chọn điều khiển cách merge hoạt động
+
+| Tuỳ chọn               | Ý nghĩa                                                                         |
+|------------------------|---------------------------------------------------------------------------------|
+| `--no-commit`          | Merge nhưng **không tạo commit tự động** (để bạn kiểm tra lại trước khi commit) |
+| `--no-ff`              | Luôn tạo commit merge, kể cả khi có thể fast-forward                            |
+| `--ff-only`            | Chỉ cho phép fast-forward, **báo lỗi nếu cần commit merge**                     |
+| `--squash`             | Gộp tất cả commit thành **1 commit duy nhất**, nhưng **không tự commit**        |
+| `--abort`              | **Hủy merge đang diễn ra** (nếu đang xung đột)                                  |
+| `--continue`           | Tiếp tục merge sau khi đã xử lý conflict                                        |
+| `--strategy=recursive` | Chọn chiến lược merge                                                           |
+| `--edit`               | Cho phép sửa thông điệp commit khi merge                                        |
+
+- 🧪**VD:**
+   ```bash
+  git merge dev              # Gộp nhánh `dev` vào nhánh hiện tại
+  ```
+
+### 4. Tái áp dụng các commit hiện tại lên một nền mới
 - Lệnh: **git rebase **
      ```bash
-   git branch [<options>] [<branch-name>] [<start-point>]
+    git rebase [<options>] [<upstream> [<branch>]]
     ```
+- `<upstream>`: Nhánh (hoặc commit) mà bạn muốn rebase lên
+- `<branch>`: Nhánh bạn muốn rebase (mặc định là nhánh hiện tại)
+- `<options>`: Các tùy chọn điều khiển quá trình rebase
+- 🧪**VD:**
+   ```bash
+  # Rebase nhánh hiện tại lên main
+  git checkout feature/login
+  git rebase main
+  
+  git rebase main feature/cart     # Rebase một nhánh khác 
+  git rebase -i HEAD~4             # Rebase tương tác (interactive) để chỉnh sửa commit
+  ```
+
 ### 5. Quản lý các nhánh
 - Lệnh: **git cherry-pick**
      ```bash

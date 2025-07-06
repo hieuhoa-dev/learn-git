@@ -1,4 +1,4 @@
-test 222222222222222222222222222222
+
 # A. Tổng quan về Git
 ## I. Git là gì?
 **Git** là một hệ thống điều khiển **phiên bản phân tán** (Distributed Version Control System - DVCS) ghi lại các thay đổi đối với một tệp hoặc tập hợp các tệp theo thời gian, cho phép bạn dễ dàng xem lại hoặc khôi phục các phiên bản cụ thể sau này.

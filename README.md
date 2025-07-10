@@ -418,6 +418,8 @@
   git cherry-pick a1b2c3d         # Áp dụng một commit vào nhánh hiện tại
   git cherry-pick a1b2c3d 4d5e6f7 # Áp dụng nhiều commit vào nhánh hiện tại
   git cherry-pick branch~2        # Áp dụng commit từ một nhánh khác
+  git cherry-pick a1b2c3d^..8d9e10f11 # Áp dụng khoảng commit vào nhánh hiện tại
+  git cherry-pick -m 1 --no-commit a1b2c3d # Áp dụng khoảng commit vào nhánh hiện tại
   ```
 
 ### 7. Đảo ngược commit

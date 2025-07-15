@@ -305,10 +305,10 @@
   git checkout dev           # Chuyển sang nhánh
   # hoặc git checkout -b dev  (Tạo và chuyển sang nhánh mới, gộp 2 bước)
   ```
-- 💡 **Lưu ý:**
-  - Dấu `*` trong `git branch` chỉ nhánh hiện tại.
-  - Bạn `không thể xoá nhánh đang đứng`. Phải `checkout` sang nhánh khác trước.
-  - Để làm việc với nhánh remote, bạn thường cần `git fetch` trước để cập nhật danh sách nhánh.
+> [!NOTE]
+> Dấu `*` trong `git branch` chỉ nhánh hiện tại.
+> Bạn `không thể xoá nhánh đang đứng`. Phải `checkout` sang nhánh khác trước.
+> Để làm việc với nhánh remote, bạn thường cần `git fetch` trước để cập nhật danh sách nhánh.
 
 ### 2. Chuyển nhánh và khôi phục file về trạng thái cũ
 - Lệnh: **git checkout**

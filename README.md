@@ -135,7 +135,10 @@
  | `-f`       | (force) Bắt buộc xóa nếu file đã chỉnh sửa (đã thay đổi chưa commit)  |
  | `--cached` | ❗Chỉ xóa khỏi Git (staging/index), **giữ lại file trên máy**          |
  | `-r`       | Xóa **thư mục** (recursive)                                           |
-  
+- 🧪 **VD:**
+    ```bash
+   git rm -r --cached .
+   ``` 
 ### 6. Hoàn tác các thay đổi:
 - Lệnh: **Git restore**
      ```bash
